@@ -196,8 +196,6 @@ class LLDBClient extends ProcessManager {
     
     }
 
-    
-
     //
     //  INITIALIZATION
     //
@@ -355,15 +353,15 @@ class LLDBClient extends ProcessManager {
     //  make these work with new async command regex
     //
 
-    async step() {
-        const output = await this.sendCommandAsync('process continue --step', 'step');
-        return output;
-    }
+    // async step() {
+    //     const output = await this.sendCommandAsync('process continue --step', 'step');
+    //     return output;
+    // }
 
-    async next() {
-        const output = await this.sendCommandAsync('process continue --step-out', 'next');
-        return output;
-    }
+    // async next() {
+    //     const output = await this.sendCommandAsync('process continue --step-out', 'next');
+    //     return output;
+    // }
 
     async quit() {
         const output = await this.sendCommandAsync('quit', 'quit');

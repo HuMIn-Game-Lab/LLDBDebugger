@@ -112,7 +112,7 @@ function runTest(){
         console.log('Custom Command:', customCommand);
 
         lldb.sleep(50);
-        
+
         console.log('Continuing program execution');
         const continueResponse = await lldb.continue();
         console.log('Continue Response:', continueResponse);
