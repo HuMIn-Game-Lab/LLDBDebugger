@@ -15,16 +15,16 @@ class LLDBClient extends ProcessManager {
             init: /^Current executable set to '.*?' \(\w+\)\./,
         
             // Matches breakpoint-related output
-            breakpoint: /^Process \d+ stopped\n\* thread #\d+, queue = '.+', stop reason = breakpoint \d+\.\d+\n\s+frame #\d+: 0x[0-9a-fA-F]+ .+ at .+:\d+:\d+/m,
+            breakpoint: /^Process \d+ stopped.*stop reason = breakpoint.*^\s*->/ms,
         
             // Matches signal-related output (e.g., SIGINT)
             signal: /^Process \d+ stopped\n\* thread #\d+.*?stop reason = signal SIGINT/m,
         
             // Matches thread list output
-            threadList: /^Process \d+ stopped\n\* thread #\d+: tid = 0x[0-9a-f]+, .*?, queue = '.*?'/m,
+            threadList: /^\s*Process.*\s*\n^\s*\*.*tid = 0x[0-9a-fA-F]+.*\s*$/m,
         
             // Matches thread backtrace output
-            threadBacktrace: /^\* thread #\d+, queue = '.*?', stop reason = .*?\n\s+\* frame #\d+: .*? at .*?:\d+:\d+\n(?:\s+frame #\d+: .*?\n)*/m,
+            threadBacktrace:  /^\s*\*.*\b(thread|frame)\b.*$/m,
             
             //Matches thread select
             threadSelect: /^\* thread #(\d+), queue = '(.*?)', stop reason = (.*?)\n\s+frame #0: (.*?) at (.*?):(\d+):(\d+)$/,
@@ -39,13 +39,13 @@ class LLDBClient extends ProcessManager {
             run: /^Process (\d+) launched: '(.*?)' \((\w+)\)$/,
 
             //Matched the continue command output
-            continue: /^Process (\d+) resuming$/,
+            continue: /^\s*Process (\d+) resuming\s*$/m,
 
             //Matches set breakpoint output
-            setBreakpoint: /^Breakpoint (\d+): where = (.+?) at (.+?):(\d+):(\d+), address = (0x[0-9a-fA-F]+)$/,
+            setBreakpoint: /^Breakpoint (\d+): where = (.+?) at (.+?):(\d+)(?::(\d+))?, address = (0x[0-9a-fA-F]+)$/,
 
             //Matches the list breakpoints output
-            listBreakpoints: /^Current breakpoints:\n((?:\d+:.*\n(?:\s+\d+\.\d+:.*\n?)*)*)/m,
+            listBreakpoints: /^\s*Current breakpoints:\s*\n([\s\S]*)/m,
 
             //Matches the expression output
             expression: /^\((\w+)\) (\$\w+) = (.+)$/,
@@ -61,8 +61,6 @@ class LLDBClient extends ProcessManager {
             
             //Raw Command Universal match
             rawCommand: /^(?!\(lldb\)|\s*$).+/s
-
-
 
         };
     }
