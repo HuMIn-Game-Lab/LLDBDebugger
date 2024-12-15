@@ -48,7 +48,7 @@ class LLDBClient extends ProcessManager {
             listBreakpoints: /^\s*Current breakpoints:\s*\n([\s\S]*)/m,
 
             //Matches the expression output
-            expression: /^\((\w+)\) (\$\w+) = (.+)$/,
+            expression: /\$\d+\s*=/g,
 
             //Matches the variables output
             variables: /\(([^)]+)\)\s+(\w+)\s*=\s*([^\n]+)/g,
@@ -632,7 +632,7 @@ class LLDBClient extends ProcessManager {
 
     async evaluateExpression(expression, options = {}) {
         // Build the command with options
-        const language = options.language ? `-l ${options.language}` : '';
+        const language = options.language ? `-l ${options.language}` : '-l c++';
         const objectDescription = options.objectDescription ? '-O' : '';
         const showTypes = options.showTypes ? '-T' : '';
         const command = `expression ${language} ${objectDescription} ${showTypes} -- ${expression}`;
